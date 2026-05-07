@@ -1,59 +1,38 @@
 from flask import Flask, render_template, redirect, request, session
 import requests
+import os
 
 app = Flask(__name__)
-app.secret_key = "CHANGE_THIS_TO_RANDOM_SECRET"
+app.secret_key = "CHANGE_THIS_TO_RANDOM"
 
-# ---------------------------
-# DISCORD OAUTH CONFIG
-# ---------------------------
-CLIENT_ID = "YOUR_CLIENT_ID"
-CLIENT_SECRET = "YOUR_CLIENT_SECRET"
-REDIRECT_URI = "http://localhost:10000/callback"
+CLIENT_ID = "1502014298602475761"
+CLIENT_SECRET = "YOUR_SECRET"
+REDIRECT_URI = "https://xbe-main.onrender.com/callback"
 
+DISCORD_AUTH = "https://discord.com/oauth2/authorize"
 DISCORD_API = "https://discord.com/api"
 
-# ---------------------------
-# LANDING PAGE
-# ---------------------------
+# ---------------- LANDING ----------------
 @app.route("/")
 def home():
     return render_template("index.html")
 
-
-# ---------------------------
-# LOGIN PAGE (BUTTON ONLY)
-# ---------------------------
+# ---------------- LOGIN (REDIRECT ONLY) ----------------
 @app.route("/login")
 def login():
-    return render_template("login.html")
-
-
-# ---------------------------
-# DISCORD LOGIN REDIRECT
-# ---------------------------
-@app.route("/login/discord")
-def login_discord():
     return redirect(
-        f"{DISCORD_API}/oauth2/authorize"
+        f"{DISCORD_AUTH}"
         f"?client_id={CLIENT_ID}"
-        f"&redirect_uri={REDIRECT_URI}"
         f"&response_type=code"
+        f"&redirect_uri={REDIRECT_URI}"
         f"&scope=identify%20email"
     )
 
-
-# ---------------------------
-# CALLBACK (CORE AUTH)
-# ---------------------------
+# ---------------- CALLBACK ----------------
 @app.route("/callback")
 def callback():
     code = request.args.get("code")
 
-    if not code:
-        return "No code provided", 400
-
-    # Exchange code for token
     data = {
         "client_id": CLIENT_ID,
         "client_secret": CLIENT_SECRET,
@@ -63,68 +42,38 @@ def callback():
         "scope": "identify email"
     }
 
-    headers = {
-        "Content-Type": "application/x-www-form-urlencoded"
-    }
+    headers = {"Content-Type": "application/x-www-form-urlencoded"}
 
     token_res = requests.post(
         f"{DISCORD_API}/oauth2/token",
         data=data,
         headers=headers
-    )
+    ).json()
 
-    token_json = token_res.json()
-    access_token = token_json.get("access_token")
+    access_token = token_res.get("access_token")
 
-    if not access_token:
-        return f"Token error: {token_json}", 400
-
-    # Get user info
-    user_res = requests.get(
+    user = requests.get(
         f"{DISCORD_API}/users/@me",
-        headers={
-            "Authorization": f"Bearer {access_token}"
-        }
-    )
+        headers={"Authorization": f"Bearer {access_token}"}
+    ).json()
 
-    user = user_res.json()
-
-    # Save session
-    session["user"] = {
-        "id": user["id"],
-        "username": user["username"],
-        "global_name": user.get("global_name"),
-        "avatar": user.get("avatar"),
-        "email": user.get("email")
-    }
+    session["user"] = user
 
     return redirect("/dashboard")
 
-
-# ---------------------------
-# DASHBOARD (PROTECTED)
-# ---------------------------
+# ---------------- DASHBOARD ----------------
 @app.route("/dashboard")
 def dashboard():
-    user = session.get("user")
+    if "user" not in session:
+        return redirect("/")
 
-    if not user:
-        return redirect("/login")
+    return render_template("dashboard.html", user=session["user"])
 
-    return render_template("dashboard.html", user=user)
-
-
-# ---------------------------
-# LOGOUT
-# ---------------------------
+# ---------------- LOGOUT ----------------
 @app.route("/logout")
 def logout():
     session.clear()
     return redirect("/")
 
-
-# ---------------------------
-# RUN APP
-# ---------------------------
 if __name__ == "__main__":
-    app.run(host="0.0.0.0", port=10000, debug=True)
+    app.run(host="0.0.0.0", port=10000)

@@ -1,24 +1,77 @@
 <!DOCTYPE html>
 <html>
 <head>
-<meta charset="utf-8">
 <title>XBE</title>
-<link rel="stylesheet" href="/static/style.css">
+<style>
+body {
+  margin:0;
+  font-family: Arial;
+  background: #0b0f19;
+  color: white;
+  overflow:hidden;
+}
+
+.glass {
+  background: rgba(255,255,255,0.06);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255,255,255,0.1);
+  border-radius: 12px;
+}
+
+.center {
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  height:100vh;
+  flex-direction:column;
+}
+
+button {
+  padding:12px 20px;
+  border:none;
+  border-radius:10px;
+  cursor:pointer;
+  background:#5865F2;
+  color:white;
+  font-weight:bold;
+  transition:0.2s;
+}
+
+button:hover {
+  transform:scale(1.05);
+}
+
+.topbar {
+  position:absolute;
+  top:15px;
+  left:15px;
+}
+</style>
 </head>
 
-<body style="display:flex;align-items:center;justify-content:center;">
+<body>
 
-<div class="glass fade" style="width:500px;padding:50px;text-align:center;">
-  <h1 style="font-size:42px;">XBE</h1>
-  <p style="opacity:0.6;margin-top:10px;">
-    Modern Discord Community Platform
-  </p>
+<!-- DISCORD SERVER BUTTON -->
+<div class="topbar">
+  <a href="https://discord.gg/hUW628GtGh">
+    <button>Join Discord</button>
+  </a>
+</div>
 
-  <div style="margin-top:30px;">
-    <a href="/login"><button class="btn">Login</button></a>
-    <br><br>
-    <a href="/register"><button class="btn" style="opacity:0.85;">Register</button></a>
+<div class="center">
+
+  <div class="glass" style="padding:40px;text-align:center;">
+    <h1>XBE Platform</h1>
+    <p>Modern Discord Dashboard System</p>
+
+    <br>
+
+    <a href="/login">
+      <button>Login with Discord</button>
+    </a>
+
   </div>
+
 </div>
 
 </body>
