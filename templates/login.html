@@ -1,6 +1,28 @@
-<form method="POST">
-  <h2>Login</h2>
-  <input name="email" placeholder="Email" required>
-  <input name="password" type="password" placeholder="Password" required>
-  <button>Login</button>
-</form>
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Login</title>
+<link rel="stylesheet" href="/static/style.css">
+</head>
+
+<body style="display:flex;align-items:center;justify-content:center;">
+
+<div class="glass fade" style="width:380px;padding:30px;text-align:center;">
+  <h2>Welcome back</h2>
+  <p style="opacity:0.6;">Login to continue</p>
+
+  <form method="POST">
+    <input name="email" type="email" placeholder="Email">
+    <input name="password" type="password" placeholder="Password">
+    <br><br>
+    <button class="btn">Login</button>
+  </form>
+
+  <p style="margin-top:15px;opacity:0.5;font-size:13px;">
+    No account? <a href="/register" style="color:#60a5fa;">Register</a>
+  </p>
+</div>
+
+</body>
+</html>

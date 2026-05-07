@@ -1,5 +1,54 @@
-<h1>Dashboard</h1>
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Dashboard</title>
+<link rel="stylesheet" href="/static/style.css">
+</head>
 
-<p>Welcome: {{ user.email }}</p>
+<body style="display:flex;">
 
-<a href="/logout">Logout</a>
+<!-- SIDEBAR -->
+<div style="width:250px;height:100vh;padding:20px;" class="glass">
+  <h2>XBE</h2>
+  <p style="opacity:0.5;font-size:12px;">Dashboard</p>
+
+  <hr style="opacity:0.1;margin:15px 0;">
+
+  <a href="/dashboard" style="color:white;display:block;margin:10px 0;">🏠 Home</a>
+  <a href="#" style="color:white;display:block;margin:10px 0;">⚙ Settings</a>
+  <a href="/logout" style="color:#f87171;display:block;margin-top:20px;">🚪 Logout</a>
+</div>
+
+<!-- MAIN -->
+<div style="flex:1;padding:40px;">
+
+  <div class="glass" style="padding:30px;display:flex;align-items:center;gap:20px;">
+
+    <!-- Avatar -->
+    <img
+      src="https://cdn.discordapp.com/avatars/{{ user.id }}/{{ user.avatar }}.png"
+      style="width:80px;height:80px;border-radius:50%;"
+    >
+
+    <div>
+      <h2>{{ user.global_name or user.username }}</h2>
+      <p style="opacity:0.6;">{{ user.email }}</p>
+      <p style="opacity:0.4;font-size:12px;">ID: {{ user.id }}</p>
+    </div>
+
+  </div>
+
+  <br>
+
+  <div class="glass" style="padding:30px;">
+    <h3>Welcome to your dashboard 👋</h3>
+    <p style="opacity:0.6;">
+      This is your first working OAuth-based platform.
+    </p>
+  </div>
+
+</div>
+
+</body>
+</html>

@@ -1,81 +1,130 @@
-from flask import Flask, render_template, request, redirect, session, url_for
-from flask_sqlalchemy import SQLAlchemy
-from flask_bcrypt import Bcrypt
+from flask import Flask, render_template, redirect, request, session
+import requests
 
 app = Flask(__name__)
-app.config["SECRET_KEY"] = "change_this_secret"
-app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///users.db"
+app.secret_key = "CHANGE_THIS_TO_RANDOM_SECRET"
 
-db = SQLAlchemy(app)
-bcrypt = Bcrypt(app)
+# ---------------------------
+# DISCORD OAUTH CONFIG
+# ---------------------------
+CLIENT_ID = "YOUR_CLIENT_ID"
+CLIENT_SECRET = "YOUR_CLIENT_SECRET"
+REDIRECT_URI = "http://localhost:10000/callback"
 
-# USER MODEL
-class User(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
-    email = db.Column(db.String(120), unique=True, nullable=False)
-    password = db.Column(db.String(200), nullable=False)
+DISCORD_API = "https://discord.com/api"
 
-# DB INIT
-with app.app_context():
-    db.create_all()
-
-# HOME / LANDING PAGE
+# ---------------------------
+# LANDING PAGE
+# ---------------------------
 @app.route("/")
 def home():
     return render_template("index.html")
 
-# REGISTER
-@app.route("/register", methods=["GET", "POST"])
-def register():
-    if request.method == "POST":
-        email = request.form["email"]
-        password = request.form["password"]
 
-        hashed = bcrypt.generate_password_hash(password).decode("utf-8")
-
-        user = User(email=email, password=hashed)
-        db.session.add(user)
-        db.session.commit()
-
-        return redirect("/login")
-
-    return render_template("register.html")
-
-
-# LOGIN
-@app.route("/login", methods=["GET", "POST"])
+# ---------------------------
+# LOGIN PAGE (BUTTON ONLY)
+# ---------------------------
+@app.route("/login")
 def login():
-    if request.method == "POST":
-        email = request.form["email"]
-        password = request.form["password"]
-
-        user = User.query.filter_by(email=email).first()
-
-        if user and bcrypt.check_password_hash(user.password, password):
-            session["user_id"] = user.id
-            return redirect("/dashboard")
-
-        return "Login failed"
-
     return render_template("login.html")
 
 
-# DASHBOARD (protected)
+# ---------------------------
+# DISCORD LOGIN REDIRECT
+# ---------------------------
+@app.route("/login/discord")
+def login_discord():
+    return redirect(
+        f"{DISCORD_API}/oauth2/authorize"
+        f"?client_id={CLIENT_ID}"
+        f"&redirect_uri={REDIRECT_URI}"
+        f"&response_type=code"
+        f"&scope=identify%20email"
+    )
+
+
+# ---------------------------
+# CALLBACK (CORE AUTH)
+# ---------------------------
+@app.route("/callback")
+def callback():
+    code = request.args.get("code")
+
+    if not code:
+        return "No code provided", 400
+
+    # Exchange code for token
+    data = {
+        "client_id": CLIENT_ID,
+        "client_secret": CLIENT_SECRET,
+        "grant_type": "authorization_code",
+        "code": code,
+        "redirect_uri": REDIRECT_URI,
+        "scope": "identify email"
+    }
+
+    headers = {
+        "Content-Type": "application/x-www-form-urlencoded"
+    }
+
+    token_res = requests.post(
+        f"{DISCORD_API}/oauth2/token",
+        data=data,
+        headers=headers
+    )
+
+    token_json = token_res.json()
+    access_token = token_json.get("access_token")
+
+    if not access_token:
+        return f"Token error: {token_json}", 400
+
+    # Get user info
+    user_res = requests.get(
+        f"{DISCORD_API}/users/@me",
+        headers={
+            "Authorization": f"Bearer {access_token}"
+        }
+    )
+
+    user = user_res.json()
+
+    # Save session
+    session["user"] = {
+        "id": user["id"],
+        "username": user["username"],
+        "global_name": user.get("global_name"),
+        "avatar": user.get("avatar"),
+        "email": user.get("email")
+    }
+
+    return redirect("/dashboard")
+
+
+# ---------------------------
+# DASHBOARD (PROTECTED)
+# ---------------------------
 @app.route("/dashboard")
 def dashboard():
-    if "user_id" not in session:
+    user = session.get("user")
+
+    if not user:
         return redirect("/login")
 
-    user = User.query.get(session["user_id"])
     return render_template("dashboard.html", user=user)
 
 
+# ---------------------------
 # LOGOUT
+# ---------------------------
 @app.route("/logout")
 def logout():
     session.clear()
-    return redirect("/login")
+    return redirect("/")
 
 
+# ---------------------------
+# RUN APP
+# ---------------------------
 if __name__ == "__main__":
-    app.run(host="0.0.0.0", port=10000)
+    app.run(host="0.0.0.0", port=10000, debug=True)
