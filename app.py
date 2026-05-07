@@ -15,8 +15,14 @@ class User(db.Model):
     email = db.Column(db.String(120), unique=True, nullable=False)
     password = db.Column(db.String(200), nullable=False)
 
+# DB INIT
 with app.app_context():
     db.create_all()
+
+# HOME / LANDING PAGE
+@app.route("/")
+def home():
+    return render_template("index.html")
 
 # REGISTER
 @app.route("/register", methods=["GET", "POST"])

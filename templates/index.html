@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>XBE</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<style>
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: Inter, system-ui, Arial;
+}
+
+body {
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: radial-gradient(circle at top, #1e293b, #0f172a);
+  color: white;
+  text-align: center;
+}
+
+.container {
+  max-width: 600px;
+}
+
+h1 {
+  font-size: 48px;
+  margin-bottom: 10px;
+}
+
+p {
+  color: rgba(255,255,255,0.7);
+  margin-bottom: 30px;
+  font-size: 16px;
+}
+
+.buttons {
+  display: flex;
+  gap: 12px;
+  justify-content: center;
+}
+
+a {
+  text-decoration: none;
+  padding: 12px 20px;
+  border-radius: 10px;
+  font-weight: 600;
+  transition: 0.2s;
+}
+
+.login {
+  background: #6366f1;
+  color: white;
+}
+
+.login:hover {
+  transform: translateY(-2px);
+  background: #4f46e5;
+}
+
+.register {
+  border: 1px solid rgba(255,255,255,0.2);
+  color: white;
+}
+
+.register:hover {
+  background: rgba(255,255,255,0.1);
+  transform: translateY(-2px);
+}
+
+.footer {
+  margin-top: 30px;
+  font-size: 12px;
+  color: rgba(255,255,255,0.4);
+}
+</style>
+
+</head>
+
+<body>
+
+<div class="container">
+  <h1>XBE</h1>
+  <p>A modern platform for your Discord community dashboard.</p>
+
+  <div class="buttons">
+    <a class="login" href="/login">Login</a>
+    <a class="register" href="/register">Register</a>
+  </div>
+
+  <div class="footer">
+    Secure • Fast • Minimal
+  </div>
+</div>
+
+</body>
+</html>
