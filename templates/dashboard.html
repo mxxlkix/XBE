@@ -2,48 +2,27 @@
 <html>
 <head>
 <title>Dashboard</title>
-<style>
-body {
-  margin:0;
-  font-family: Arial;
-  background:#0b0f19;
-  color:white;
-}
-
-.glass {
-  background: rgba(255,255,255,0.06);
-  backdrop-filter: blur(10px);
-  border-radius: 12px;
-  padding:20px;
-  border:1px solid rgba(255,255,255,0.1);
-}
-
-.container {
-  padding:40px;
-}
-
-.avatar {
-  width:80px;
-  border-radius:50%;
-}
-</style>
 </head>
 
-<body>
+<body style="margin:0;display:flex;background:#0b0f19;color:white;">
 
-<div class="container">
+  {% include "components/sidebar.html" %}
 
-  <div class="glass">
-    <img class="avatar"
-    src="https://cdn.discordapp.com/avatars/{{ user.id }}/{{ user.avatar }}.png">
+  <div style="flex:1;">
 
-    <h2>{{ user.username }}</h2>
-    <p>ID: {{ user.id }}</p>
+    {% include "components/topbar.html" %}
 
-    <a href="/logout">Logout</a>
+    <div style="padding:30px;">
+
+      <h2>Dashboard</h2>
+
+      <div style="background:#111a2e;padding:20px;border-radius:10px;">
+        Welcome to your control panel 🚀
+      </div>
+
+    </div>
+
   </div>
-
-</div>
 
 </body>
 </html>
