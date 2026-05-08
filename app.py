@@ -82,13 +82,13 @@ def home():
 @app.route("/login")
 def login():
 
-    return redirect(
-        f"{DISCORD_AUTH}"
-        f"?client_id={CLIENT_ID}"
-        f"&response_type=code"
-        f"&redirect_uri={REDIRECT_URI}"
-        f"&scope=identify%20email%20guilds"
-    )
+    session["user"] = {
+        "id": "dev",
+        "username": "DevUser",
+        "avatar": None
+    }
+
+    return redirect("/dashboard")
 
 # ==================================================
 # CALLBACK
@@ -189,14 +189,8 @@ def dashboard():
 
     user = session.get("user")
 
-    # DEV MODE
     if not user:
-
-        user = {
-            "id": "999999",
-            "username": "Malik",
-            "avatar": None
-        }
+        return redirect("/login")
 
     return render_template(
         "dashboard.html",
