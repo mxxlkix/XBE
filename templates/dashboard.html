@@ -1,28 +1,101 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-<title>Dashboard</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>XBE Dashboard</title>
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+
+    <script src="https://cdn.jsdelivr.net/npm/tsparticles@2/tsparticles.bundle.min.js"></script>
 </head>
+<body>
 
-<body style="margin:0;display:flex;background:#0b0f19;color:white;">
+<div id="tsparticles"></div>
 
-  {% include "components/sidebar.html" %}
+<div class="layout">
 
-  <div style="flex:1;">
+    <!-- SIDEBAR -->
+    <div class="sidebar">
 
-    {% include "components/topbar.html" %}
+        <div class="logo">
+            XBE
+        </div>
 
-    <div style="padding:30px;">
-
-      <h2>Dashboard</h2>
-
-      <div style="background:#111a2e;padding:20px;border-radius:10px;">
-        Welcome to your control panel 🚀
-      </div>
+        <a href="#">🏠 Dashboard</a>
+        <a href="#">👤 Profile</a>
+        <a href="#">📊 Analytics</a>
+        <a href="#">⚙ Settings</a>
 
     </div>
 
-  </div>
+    <!-- MAIN -->
+    <div class="main">
+
+        <div class="topbar">
+
+            <h1>Welcome back, Malik 👋</h1>
+
+            <div class="userbox">
+                <div class="avatar"></div>
+            </div>
+
+        </div>
+
+        <div class="cards">
+
+            <div class="card">
+                <h2>Users</h2>
+                <p>12,483</p>
+            </div>
+
+            <div class="card">
+                <h2>Servers</h2>
+                <p>392</p>
+            </div>
+
+            <div class="card">
+                <h2>Analytics</h2>
+                <p>98%</p>
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+<script>
+tsParticles.load("tsparticles", {
+    particles: {
+        number: {
+            value: 60
+        },
+        color: {
+            value: "#ffffff"
+        },
+        links: {
+            enable: true,
+            color: "#ffffff",
+            opacity: 0.1
+        },
+        move: {
+            enable: true,
+            speed: 1
+        },
+        opacity: {
+            value: 0.2
+        },
+        size: {
+            value: 2
+        }
+    },
+    background: {
+        color: "#0b0f19"
+    }
+});
+</script>
 
 </body>
 </html>
