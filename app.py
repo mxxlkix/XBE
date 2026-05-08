@@ -15,7 +15,7 @@ DISCORD_API = "https://discord.com/api"
 # ---------------- LANDING ----------------
 @app.route("/")
 def home():
-    return render_template("index.html")
+    return redirect("/dashboard")
 
 # ---------------- LOGIN (REDIRECT ONLY) ----------------
 @app.route("/login")
@@ -34,7 +34,7 @@ def callback():
     code = request.args.get("code")
 
     if not code:
-        return "No code provided", 400
+        return redirect("/")
 
     try:
         data = {
@@ -45,46 +45,46 @@ def callback():
             "redirect_uri": REDIRECT_URI,
         }
 
-        headers = {"Content-Type": "application/x-www-form-urlencoded"}
-
-        token_res = requests.post(
+        token = requests.post(
             "https://discord.com/api/oauth2/token",
             data=data,
-            headers=headers
-        )
+            headers={"Content-Type": "application/x-www-form-urlencoded"}
+        ).json()
 
-        token_json = token_res.json()
-        access_token = token_json.get("access_token")
+        access_token = token.get("access_token")
 
         if not access_token:
-            return f"Token error: {token_json}", 400
+            return redirect("/")
 
         user = requests.get(
             "https://discord.com/api/users/@me",
             headers={"Authorization": f"Bearer {access_token}"}
         ).json()
 
-        # SAFE SESSION (nur wichtige Daten speichern)
         session["user"] = {
             "id": user.get("id"),
             "username": user.get("username"),
-            "avatar": user.get("avatar")
         }
 
         return redirect("/dashboard")
 
-    except Exception as e:
-        return f"Callback error: {str(e)}", 500
+    except:
+        return redirect("/")
 
 # ---------------- DASHBOARD ----------------
 @app.route("/dashboard")
 def dashboard():
-    user = session.get("user")
 
-    if not user:
-        return redirect("/")
+    fake_user = {
+        "id": "123456789",
+        "username": "Malik",
+        "avatar": None
+    }
 
-    return render_template("dashboard.html", user=user)
+    return render_template(
+        "dashboard.html",
+        user=fake_user
+    )
 
 # ---------------- LOGOUT ----------------
 @app.route("/logout")
