@@ -46,8 +46,9 @@
         <div class="cards">
 
             <div class="card">
-                <h2>Users</h2>
-                <p>12,483</p>
+                <p id="users">0</p>
+
+                <p id="servers">0</p>
             </div>
 
             <div class="card">
@@ -96,6 +97,9 @@ tsParticles.load("tsparticles", {
     }
 });
 </script>
-
+<script
+src="{{ url_for('static',
+filename='js/dashboard.js') }}">
+</script>
 </body>
 </html>

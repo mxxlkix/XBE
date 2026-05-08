@@ -39,13 +39,23 @@ z-index:-1;
 }
 
 .logo{
-    font-size:32px;
-    font-weight:bold;
-    margin-bottom:40px;
+    font-size:42px;
+    font-weight:900;
+    letter-spacing:2px;
 
-    background:linear-gradient(90deg,#5865F2,#9b59ff);
+    margin-bottom:50px;
+
+    background:linear-gradient(
+        90deg,
+        #5865F2,
+        #9b59ff
+    );
+
     -webkit-background-clip:text;
     -webkit-text-fill-color:transparent;
+
+    text-shadow:
+    0 0 30px rgba(88,101,242,0.5);
 }
 
 .sidebar a{
@@ -70,10 +80,19 @@ z-index:-1;
     padding:40px;
 }
 
-.topbar{
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
+.topbar h1{
+    font-size:56px;
+    font-weight:800;
+    letter-spacing:-1px;
+
+    background:linear-gradient(
+        90deg,
+        #ffffff,
+        #aab3ff
+    );
+
+    -webkit-background-clip:text;
+    -webkit-text-fill-color:transparent;
 }
 
 .topbar h1{
@@ -123,13 +142,23 @@ z-index:-1;
 }
 
 .card h2{
-    font-size:22px;
-    margin-bottom:10px;
+    font-size:28px;
+    margin-bottom:14px;
+    font-weight:700;
 }
 
 .card p{
-    font-size:42px;
-    font-weight:bold;
+    font-size:58px;
+    font-weight:900;
+
+    background:linear-gradient(
+        90deg,
+        #ffffff,
+        #8ea2ff
+    );
+
+    -webkit-background-clip:text;
+    -webkit-text-fill-color:transparent;
 }
 
 @keyframes fadeUp{
