@@ -29,7 +29,7 @@ CLIENT_ID = "1502014298602475761"
 
 CLIENT_SECRET = "HO3Fo9gg0k-XNSNHDTvAP1D1_XoalW3M"
 
-REDIRECT_URI = "https://xbe-main.onrender.com/callback"
+REDIRECT_URI = "https://discord.com/oauth2/authorize?client_id=1502014298602475761&response_type=code&redirect_uri=https%3A%2F%2Fxbe-main.onrender.com%2Fcallback&scope=identify+email+guilds"
 
 DISCORD_AUTH = "https://discord.com/oauth2/authorize"
 
