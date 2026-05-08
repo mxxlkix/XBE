@@ -29,7 +29,7 @@ CLIENT_ID = "1502014298602475761"
 
 CLIENT_SECRET = "HO3Fo9gg0k-XNSNHDTvAP1D1_XoalW3M"
 
-REDIRECT_URI = "https://discord.com/oauth2/authorize?client_id=1502014298602475761&response_type=code&redirect_uri=https%3A%2F%2Fxbe-main.onrender.com%2Fcallback&scope=identify+email+guilds"
+REDIRECT_URI = "https://xbe-main.onrender.com/callback"
 
 DISCORD_AUTH = "https://discord.com/oauth2/authorize"
 
@@ -82,15 +82,13 @@ def home():
 @app.route("/login")
 def login():
 
-    discord_login_url = (
+    return redirect(
         f"{DISCORD_AUTH}"
         f"?client_id={CLIENT_ID}"
         f"&response_type=code"
         f"&redirect_uri={REDIRECT_URI}"
         f"&scope=identify%20email%20guilds"
     )
-
-    return redirect(discord_login_url)
 
 # ==================================================
 # CALLBACK
