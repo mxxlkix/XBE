@@ -1,18 +1,23 @@
 <!DOCTYPE html>
-<html>
-<body style="margin:0;background:#0b0f19;color:white;display:flex;">
+<html lang="en">
+<head>
+    <title>Servers</title>
 
-{% include "components/sidebar.html" %}
+    <link rel="stylesheet"
+    href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
 
-<div style="flex:1;padding:30px;">
+{% include 'components/sidebar.html' %}
 
-  {% include "components/topbar.html" %}
+<div class="main">
 
-  <h2>Servers</h2>
+    <h1>🌍 Servers</h1>
 
-  <div style="background:#111a2e;padding:20px;border-radius:10px;">
-    Connected Discord Servers will appear here
-  </div>
+    <div class="card">
+        <h2>Connected Servers</h2>
+        <p>0 Servers Loaded</p>
+    </div>
 
 </div>
 

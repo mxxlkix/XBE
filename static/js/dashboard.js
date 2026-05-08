@@ -1,14 +1,8 @@
-async function loadStats(){
+async function loadStats() {
+  const res = await fetch("/api/live-stats");
+  const data = await res.json();
 
-  const response = await fetch("/api/stats");
-
-  const data = await response.json();
-
-  document.getElementById("users").innerText =
-  data.users;
-
-  document.getElementById("servers").innerText =
-  data.servers;
+  document.getElementById("liveUsers").innerText = data.users;
 }
 
 loadStats();

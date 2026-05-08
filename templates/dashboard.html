@@ -3,103 +3,140 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
     <title>XBE Dashboard</title>
 
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
 
     <script src="https://cdn.jsdelivr.net/npm/tsparticles@2/tsparticles.bundle.min.js"></script>
 </head>
+
 <body>
 
 <div id="tsparticles"></div>
 
 <div class="layout">
 
-    <!-- SIDEBAR -->
+    <!-- ================= SIDEBAR ================= -->
     <div class="sidebar">
 
         <div class="logo">
-            XBE
+            💎 XBE
         </div>
 
-        <a href="#">🏠 Dashboard</a>
-        <a href="#">👤 Profile</a>
-        <a href="#">📊 Analytics</a>
-        <a href="#">⚙ Settings</a>
+        <a href="/dashboard">🏠 Dashboard</a>
+        <a href="/profile">👤 Profile</a>
+        <a href="/servers">🌍 Servers</a>
+        <a href="/analytics">📊 Analytics</a>
+        <a href="/settings">⚙ Settings</a>
+
+        <div class="sidebar-footer">
+            Logged in as<br>
+            <span>{{ user.username }}</span>
+        </div>
 
     </div>
 
-    <!-- MAIN -->
+    <!-- ================= MAIN ================= -->
     <div class="main">
 
+        <!-- TOPBAR -->
         <div class="topbar">
 
-            <h1>Welcome back, Malik 👋</h1>
+            <div class="title">
+                <h1>Welcome back, {{ user.username }} 👋</h1>
+                <p>Here is your live dashboard overview</p>
+            </div>
 
             <div class="userbox">
-                <div class="avatar"></div>
+
+                <div class="avatar">
+                    {% if user.avatar %}
+                        <img src="https://cdn.discordapp.com/avatars/{{ user.id }}/{{ user.avatar }}.png">
+                    {% else %}
+                        👤
+                    {% endif %}
+                </div>
+
             </div>
 
         </div>
 
+        <!-- ================= CARDS ================= -->
         <div class="cards">
 
             <div class="card">
+                <h2>👥 Users</h2>
                 <p id="users">0</p>
+            </div>
 
+            <div class="card">
+                <h2>🌍 Servers</h2>
                 <p id="servers">0</p>
             </div>
 
-            <div class="card">
-                <h2>Servers</h2>
-                <p>392</p>
+            <div class="card clickable"
+            onclick="window.location.href='/analytics'">
+
+                <h2>📊 Analytics</h2>
+                <p>View Stats</p>
+
             </div>
 
             <div class="card">
-                <h2>Analytics</h2>
-                <p>98%</p>
+                <h2>⚡ System Status</h2>
+                <p style="color:lime;">ONLINE</p>
+            </div>
+
+        </div>
+
+        <!-- ================= ACTIVITY ================= -->
+        <div class="section">
+
+            <h2>🔥 Live Activity</h2>
+
+            <div class="activity-box">
+
+                <div class="activity-item">
+                    🚀 Dashboard loaded
+                </div>
+
+                <div class="activity-item">
+                    💎 User session active
+                </div>
+
             </div>
 
         </div>
 
     </div>
-
 </div>
 
+<!-- ================= PARTICLES ================= -->
 <script>
 tsParticles.load("tsparticles", {
     particles: {
-        number: {
-            value: 60
-        },
-        color: {
-            value: "#ffffff"
-        },
+        number: { value: 50 },
+        color: { value: "#ffffff" },
         links: {
             enable: true,
             color: "#ffffff",
-            opacity: 0.1
+            opacity: 0.08
         },
         move: {
             enable: true,
-            speed: 1
+            speed: 0.6
         },
-        opacity: {
-            value: 0.2
-        },
-        size: {
-            value: 2
-        }
+        opacity: { value: 0.15 },
+        size: { value: 2 }
     },
     background: {
         color: "#0b0f19"
     }
 });
 </script>
-<script
-src="{{ url_for('static',
-filename='js/dashboard.js') }}">
-</script>
+
+<!-- ================= JS ================= -->
+<script src="{{ url_for('static', filename='js/dashboard.js') }}"></script>
+
 </body>
 </html>

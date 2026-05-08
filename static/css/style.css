@@ -141,6 +141,14 @@ z-index:-1;
     box-shadow:0 0 40px rgba(88,101,242,0.3);
 }
 
+.clickable{
+    cursor:pointer;
+}
+
+.clickable:hover{
+    transform:translateY(-10px) scale(1.02);
+}
+
 .card h2{
     font-size:28px;
     margin-bottom:14px;

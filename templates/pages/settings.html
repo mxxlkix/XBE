@@ -1,19 +1,23 @@
 <!DOCTYPE html>
-<html>
-<body style="margin:0;background:#0b0f19;color:white;display:flex;">
+<html lang="en">
+<head>
+    <title>Settings</title>
 
-{% include "components/sidebar.html" %}
+    <link rel="stylesheet"
+    href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
 
-<div style="flex:1;padding:30px;">
+{% include 'components/sidebar.html' %}
 
-  {% include "components/topbar.html" %}
+<div class="main">
 
-  <h2>Settings</h2>
+    <h1>⚙ Settings</h1>
 
-  <div style="background:#111a2e;padding:20px;border-radius:10px;">
-    Theme: Dark Mode<br>
-    Account: Connected via Discord
-  </div>
+    <div class="card">
+        <h2>System Settings</h2>
+        <p>Customize your experience</p>
+    </div>
 
 </div>
 

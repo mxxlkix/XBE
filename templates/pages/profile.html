@@ -1,19 +1,23 @@
 <!DOCTYPE html>
-<html>
-<body style="margin:0;background:#0b0f19;color:white;display:flex;">
+<html lang="en">
+<head>
+    <title>Profile</title>
 
-{% include "components/sidebar.html" %}
+    <link rel="stylesheet"
+    href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
 
-<div style="flex:1;padding:30px;">
+{% include 'components/sidebar.html' %}
 
-  {% include "components/topbar.html" %}
+<div class="main">
 
-  <h2>Profile</h2>
+    <h1>👤 Profile</h1>
 
-  <div style="background:#111a2e;padding:20px;border-radius:10px;">
-    <p>ID: {{ user.id }}</p>
-    <p>Username: {{ user.username }}</p>
-  </div>
+    <div class="card">
+        <h2>User Profile</h2>
+        <p>XBE User System</p>
+    </div>
 
 </div>
 
